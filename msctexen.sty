@@ -52,11 +52,18 @@
 \immediate\closeout\@out
 \def\@eps{eps}
 \def\@png{png}
+\def\@svg{svg}
 \ifdefequal{\msc@format}{\@eps}{
-  \immediate\write18{mscgen -T eps -S signalling -i \mscfname.mscg -o \mscfname.eps >\mscfname.out 2> \mscfname.err}
+  \immediate\write18{mscgen -T eps -i \mscfname.mscg -o \mscfname.eps >\mscfname.out 2> \mscfname.err}
   \immediate\write18{epstopdf --gsopt=-dEPSCrop \mscfname.eps}
+    \includegraphics[trim=0 15 0 0,clip,width=\msc@width]{\mscfname.\msc@format}
 }{
 \ifdefequal{\msc@format}{\@png}{
-  \immediate\write18{mscgen -T png -S signalling -i \mscfname.mscg -o \mscfname.png >\mscfname.out 2> \mscfname.err}
-}{}}
-{\includegraphics[trim=0 15 0 0,clip,width=\msc@width]{\mscfname.\msc@format}}}
+  \immediate\write18{mscgen -T png -i \mscfname.mscg -o \mscfname.png >\mscfname.out 2> \mscfname.err}
+  \includegraphics[trim=0 15 0 0,clip,width=\msc@width]{\mscfname.\msc@format}
+}{\ifdefequal{\msc@format}{\@svg}{
+  \immediate\write18{mscgen -T svg -i \mscfname.mscg -o \mscfname.svg >\mscfname.out 2> \mscfname.err}
+%   \def\svgwidth{\msc@width}
+%   \input{\mscfname.pdf_tex}
+   \includesvg[width=\msc@width]{\mscfname.\msc@format}
+}{}}}}
