@@ -3,6 +3,7 @@
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{msctexen}
+\usepackage{svg}
 
 \begin{document}
 
@@ -69,6 +70,34 @@ msc {
 \begin{figure}[htb]
 \begin{center}
 \begin{msc}[format=png]
+msc {
+  hscale = "2";
+
+  a,b,c;
+
+  a->b [ label = "ab()" ] ;
+  b->c [ label = "bc(TRUE)"];
+  c=>c [ label = "process(1)" ];
+  c=>c [ label = "process(2)" ];
+  ...;
+  c=>c [ label = "process(n)" ];
+  c=>c [ label = "process(END)" ];
+  a<<=c [ label = "callback()"];
+  ---  [ label = "If more to run", ID="*" ];
+  a->a [ label = "next()"];
+  a->c [ label = "ac1()\nac2()"];
+  b<-c [ label = "cb(TRUE)"];
+  b->b [ label = "stalled(...)"];
+  a<-b [ label = "ab() = FALSE"];
+}
+\end{msc}
+\end{center}
+\end{figure}
+
+% use svg instead of png
+\begin{figure}[htb]
+\begin{center}
+\begin{msc}[format=svg]
 msc {
   hscale = "2";
 
